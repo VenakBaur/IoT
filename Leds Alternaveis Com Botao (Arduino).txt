@@ -1,0 +1,67 @@
+const int ledVerdePin = 7;
+const int ledVermelhoPin = 3;
+const int ledAmareloPin = 5;
+const int buttonPin = 2;
+
+// estado dos LEDs
+bool ledVerdeLigado = false;
+bool ledVermelhoLigado = false;
+bool ledAmareloLigado = false;
+
+//variável para guardar o estado anterior do botão
+int buttonState = HIGH;
+//variável para guardar o estado atual do botão
+int lastButtonState = HIGH;
+
+void setup() {
+  // pinos dos LEDs saídas
+  pinMode(ledVerdePin, OUTPUT);
+  pinMode(ledVermelhoPin, OUTPUT);
+  pinMode(ledAmareloPin, OUTPUT);
+  
+  //pino do botão como entrada com resistor de pull-up interno
+  pinMode(buttonPin, INPUT_PULLUP);
+  
+  // Desliga todos os LEDs ao iniciar
+  digitalWrite(ledVerdePin, LOW);
+  digitalWrite(ledVermelhoPin, LOW);
+  digitalWrite(ledAmareloPin, LOW);
+}
+
+void loop() {
+  //estado atual do botão
+  buttonState = digitalRead(buttonPin);
+
+  // mudança de estado do botão
+  if (buttonState != lastButtonState) {
+    //tempo para evitar detecções falsas
+    delay(50);
+
+    // botão foi pressionado (estado atual LOW)
+    if (buttonState == LOW) {
+      // troca os LEDs
+      if (!ledVerdeLigado && !ledVermelhoLigado && !ledAmareloLigado) {
+        digitalWrite(ledVerdePin, HIGH);
+        ledVerdeLigado = true;
+      } else if (ledVerdeLigado && !ledVermelhoLigado && !ledAmareloLigado) {
+        digitalWrite(ledVermelhoPin, HIGH);
+        ledVermelhoLigado = true;
+        digitalWrite(ledVerdePin, LOW);
+        ledVerdeLigado = false;
+      } else if (!ledVerdeLigado && ledVermelhoLigado && !ledAmareloLigado) {
+        digitalWrite(ledAmareloPin, HIGH);
+        ledAmareloLigado = true;
+        digitalWrite(ledVermelhoPin, LOW);
+        ledVermelhoLigado = false;
+      } else if (!ledVerdeLigado && !ledVermelhoLigado && ledAmareloLigado) {
+        digitalWrite(ledVerdePin, HIGH);
+        ledVerdeLigado = true;
+        digitalWrite(ledAmareloPin, LOW);
+        ledAmareloLigado = false;
+      }
+    }
+  }
+
+  // Atualiza o estado anterior do botão
+  lastButtonState = buttonState;
+}
