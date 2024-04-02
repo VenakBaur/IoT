@@ -39,25 +39,25 @@ void loop() {
 
     // botão foi pressionado (estado atual LOW)
     if (buttonState == LOW) {
-      // troca os LEDs
+      // Troca a sequência de LEDs como um semáforo
       if (!ledVerdeLigado && !ledVermelhoLigado && !ledAmareloLigado) {
         digitalWrite(ledVerdePin, HIGH);
         ledVerdeLigado = true;
       } else if (ledVerdeLigado && !ledVermelhoLigado && !ledAmareloLigado) {
-        digitalWrite(ledVermelhoPin, HIGH);
-        ledVermelhoLigado = true;
         digitalWrite(ledVerdePin, LOW);
         ledVerdeLigado = false;
-      } else if (!ledVerdeLigado && ledVermelhoLigado && !ledAmareloLigado) {
         digitalWrite(ledAmareloPin, HIGH);
         ledAmareloLigado = true;
-        digitalWrite(ledVermelhoPin, LOW);
-        ledVermelhoLigado = false;
-      } else if (!ledVerdeLigado && !ledVermelhoLigado && ledAmareloLigado) {
-        digitalWrite(ledVerdePin, HIGH);
-        ledVerdeLigado = true;
+      } else if (!ledVerdeLigado && ledAmareloLigado && !ledVermelhoLigado) {
         digitalWrite(ledAmareloPin, LOW);
         ledAmareloLigado = false;
+        digitalWrite(ledVermelhoPin, HIGH);
+        ledVermelhoLigado = true;
+      } else if (!ledAmareloLigado && !ledVerdeLigado && ledVermelhoLigado) {
+        digitalWrite(ledVermelhoPin, LOW);
+        ledVermelhoLigado = false;
+        digitalWrite(ledVerdePin, HIGH);
+        ledVerdeLigado = true;
       }
     }
   }
