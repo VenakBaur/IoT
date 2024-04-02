@@ -1,0 +1,29 @@
+const int analogInputPin = A0; // Pino de entrada analógica para controlar o intervalo de tempo
+const int numLeds = 6; // Número de LEDs
+const int ledPins[numLeds] = {2, 3, 4, 5, 6, 7}; // Pinos dos LEDs
+int intervaloMin = 100; // Intervalo mínimo em milissegundos (100ms)
+int intervaloMax = 2000; // Intervalo máximo em milissegundos (2000ms)
+
+void setup() {
+  for (int i = 0; i < numLeds; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  int intervalo = map(analogRead(analogInputPin), 0, 1023, intervaloMin, intervaloMax);
+ 
+  // Acende os LEDs em sequência
+  for (int i = 0; i < numLeds; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(intervalo);
+  }
+ 
+  delay(1000); // Espera 3 segundos
+ 
+  // Apaga os LEDs em sequência reversa
+  for (int i = numLeds - 1; i >= 0; i--) {
+    digitalWrite(ledPins[i], LOW);
+    delay(intervalo);
+  }
+}
