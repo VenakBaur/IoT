@@ -1,0 +1,32 @@
+const int analogInputPin = A0; // Pino de entrada analógica para o potenciômetro
+const int numLeds = 6; // Número de LEDs
+const int ledPins[numLeds] = {2, 3, 4, 5, 6, 7}; // Pinos dos LEDs
+int intervaloMin = 100; // Intervalo mínimo em milissegundos (100ms)
+int intervaloMax = 2000; // Intervalo máximo em milissegundos (2000ms)
+
+void setup() {
+  for (int i = 0; i < numLeds; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Lê o valor do potenciômetro
+  int valorPotenciometro = analogRead(analogInputPin);
+ 
+  // Mapeia o valor do potenciômetro para o intervalo de tempo
+  int intervalo = map(valorPotenciometro, 0, 1023, intervaloMin, intervaloMax);
+
+  // Lógica para ligar/desligar LEDs
+  for (int i = 0; i < numLeds; i++) {
+    // Se o valor do potenciômetro for maior que o limite correspondente ao LED atual, liga o LED
+    if (valorPotenciometro > map(i, 0, numLeds, 0, 1023)) {
+      digitalWrite(ledPins[i], HIGH);
+    } else {
+      digitalWrite(ledPins[i], LOW);
+    }
+  }
+
+  // Aguarda o intervalo definido
+  delay(intervalo);
+}
